@@ -51,6 +51,23 @@ All settings are environment variables.
 | `SEED_DEMO` | on | set to `0` to start with an empty menu |
 | `GOOGLE_CLOUD_PROJECT` | | required when `STORE=firestore` |
 
+### Creating a SESSION_SECRET
+
+`SESSION_SECRET` is any long random string. Generate one and keep it private:
+
+```sh
+openssl rand -hex 32
+```
+
+No OpenSSL? Use `head -c 32 /dev/urandom | base64`, or
+`python3 -c "import secrets; print(secrets.token_hex(32))"`.
+
+Set it alongside the PINs, for example
+`SESSION_SECRET=<the output> ADMIN_PIN=... KITCHEN_PIN=... go run .`, or put it
+in `env.yaml` when deploying. Use the same value on every instance, and never
+commit it. If it leaks, generate a new one: everyone is signed out, which is
+the only side effect.
+
 ## Tests
 
 ```sh
