@@ -1,0 +1,24 @@
+{{define "content"}}
+<section class="status-card" id="status" data-id="{{.Order.ID}}" data-status="{{.Order.Status}}">
+  <p class="eyebrow">Order number</p>
+  <p class="big-number">#{{.Order.Number}}</p>
+  <p class="status-label" id="status-label">{{label .Order.Status}}</p>
+  <ol class="steps">
+    <li data-step="new">Received</li>
+    <li data-step="preparing">Cooking</li>
+    <li data-step="ready">Ready</li>
+  </ol>
+  <p class="hint" id="status-hint">This page updates by itself. Keep it open.</p>
+</section>
+
+<section class="receipt">
+  <h2>{{.Order.Name}}, here's your order</h2>
+  <ul>
+    {{range .Order.Items}}<li><span>{{.Qty}} × {{.Name}}</span><span>{{money (mul .PriceCents .Qty)}}</span></li>{{end}}
+  </ul>
+  <p class="total">Total <strong>{{money .Order.TotalCents}}</strong></p>
+  {{if .Order.Notes}}<p class="hint">Notes: {{.Order.Notes}}</p>{{end}}
+  <p><a href="/">Order something else</a></p>
+</section>
+{{end}}
+{{define "scripts"}}<script src="/static/js/status.js"></script>{{end}}

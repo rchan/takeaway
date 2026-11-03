@@ -1,0 +1,12 @@
+runtime: go127
+instance_class: F1
+
+# Secrets and settings live in env.yaml, which is NOT committed. Copy
+# env.example.yaml to env.yaml and fill it in before deploying.
+includes:
+  - env.yaml
+
+handlers:
+  - url: /.*
+    script: auto
+    secure: always

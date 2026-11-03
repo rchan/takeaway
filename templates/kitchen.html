@@ -1,0 +1,12 @@
+{{define "content"}}
+<div class="kitchen-head">
+  <h1>Kitchen</h1>
+  <p class="hint" id="conn">Connecting…</p>
+</div>
+<div class="board">
+  <section class="col" data-col="new"><h2>New <span class="count"></span></h2><div class="cards"></div></section>
+  <section class="col" data-col="preparing"><h2>Cooking <span class="count"></span></h2><div class="cards"></div></section>
+  <section class="col" data-col="ready"><h2>Ready <span class="count"></span></h2><div class="cards"></div></section>
+</div>
+{{end}}
+{{define "scripts"}}<script src="/static/js/kitchen.js"></script>{{end}}

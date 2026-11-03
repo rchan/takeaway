@@ -1,0 +1,57 @@
+{{define "content"}}
+<h1>Menu</h1>
+<div class="admin-grid">
+  <section>
+    <table class="table">
+      <thead><tr><th>Item</th><th>Category</th><th class="num">Price</th><th>On sale</th><th></th></tr></thead>
+      <tbody>
+      {{range .Items}}
+        <tr{{if not .Available}} class="muted"{{end}}>
+          <td><strong>{{.Name}}</strong><br><span class="hint">{{.Description}}</span></td>
+          <td>{{.Category}}</td>
+          <td class="num">{{money .PriceCents}}</td>
+          <td>{{if .Available}}Yes{{else}}Hidden{{end}}</td>
+          <td class="actions">
+            <a href="/admin?edit={{.ID}}">Edit</a>
+            <form method="post" action="/admin/menu/{{.ID}}/delete" class="inline" data-confirm="Delete {{.Name}}?">
+              <input type="hidden" name="csrf_token" value="{{$.CSRF}}">
+              <button class="link danger" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+      {{else}}
+        <tr><td colspan="5" class="empty">No items yet. Add your first one.</td></tr>
+      {{end}}
+      </tbody>
+    </table>
+  </section>
+
+  <aside class="panel">
+    {{with .Edit}}
+      <h2>Edit item</h2>
+      <form method="post" action="/admin/menu/{{.ID}}">
+        <input type="hidden" name="csrf_token" value="{{$.CSRF}}">
+        {{template "itemFields" .}}
+        <button class="btn" type="submit">Save changes</button>
+        <a href="/admin">Cancel</a>
+      </form>
+    {{else}}
+      <h2>Add item</h2>
+      <form method="post" action="/admin/menu">
+        <input type="hidden" name="csrf_token" value="{{$.CSRF}}">
+        {{template "itemFields" .}}
+        <button class="btn" type="submit">Add to menu</button>
+      </form>
+    {{end}}
+  </aside>
+</div>
+{{end}}
+
+{{define "itemFields"}}
+<label>Name <input name="name" required maxlength="80" value="{{.Name}}"></label>
+<label>Description <input name="description" maxlength="200" value="{{.Description}}"></label>
+<label>Category <input name="category" maxlength="40" placeholder="Starters, Mains, Drinks…" value="{{.Category}}"></label>
+<label>Price (£) <input name="price" required inputmode="decimal" placeholder="4.50" value="{{if .PriceCents}}{{price .PriceCents}}{{end}}"></label>
+<label class="check"><input type="checkbox" name="available"{{if or .Available (not .ID)}} checked{{end}}> On sale</label>
+{{end}}
+{{define "scripts"}}<script src="/static/js/admin.js"></script>{{end}}

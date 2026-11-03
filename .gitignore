@@ -1,0 +1,9 @@
+/takeaway
+/tmp/
+/data/
+*.exe
+.env
+env.yaml
+.DS_Store
+build-errors.log
+*-key.json

@@ -1,0 +1,35 @@
+{{define "base"}}<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{.Title}} · {{.ShopName}}</title>
+<link rel="stylesheet" href="/static/css/takeaway.css">
+</head>
+<body{{if .Role}} data-csrf="{{.CSRF}}"{{end}}>
+<header class="top">
+  <a class="brand" href="/"><span class="brand-mark">🥡</span> {{.ShopName}}</a>
+  <nav>
+    <a href="/">Order</a>
+    {{if .Role}}
+      <a href="/admin">Menu</a>
+      <a href="/admin/orders">Orders</a>
+      <a href="/kitchen">Kitchen</a>
+      <form method="post" action="/{{.Role}}/logout" class="inline">
+        <input type="hidden" name="csrf_token" value="{{.CSRF}}">
+        <button class="link" type="submit">Sign out</button>
+      </form>
+    {{else}}
+      <a href="/kitchen" class="quiet">Staff</a>
+    {{end}}
+  </nav>
+</header>
+<main>
+{{if .Flash}}<p class="flash">{{.Flash}}</p>{{end}}
+{{if .Error}}<p class="error">{{.Error}}</p>{{end}}
+{{template "content" .}}
+</main>
+<footer class="foot">{{.ShopName}} · a demo app built in Go</footer>
+{{block "scripts" .}}{{end}}
+</body>
+</html>{{end}}

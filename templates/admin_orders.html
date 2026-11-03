@@ -1,0 +1,20 @@
+{{define "content"}}
+<h1>Recent orders</h1>
+<table class="table">
+  <thead><tr><th>#</th><th>Time</th><th>Customer</th><th>Items</th><th class="num">Total</th><th>Status</th></tr></thead>
+  <tbody>
+  {{range .Orders}}
+    <tr>
+      <td>#{{.Number}}</td>
+      <td>{{clock .CreatedAt}}</td>
+      <td>{{.Name}}<br><span class="hint">{{.Phone}}</span></td>
+      <td>{{range .Items}}{{.Qty}} × {{.Name}}<br>{{end}}</td>
+      <td class="num">{{money .TotalCents}}</td>
+      <td><span class="pill {{.Status}}">{{label .Status}}</span></td>
+    </tr>
+  {{else}}
+    <tr><td colspan="6" class="empty">No orders yet.</td></tr>
+  {{end}}
+  </tbody>
+</table>
+{{end}}

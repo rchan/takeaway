@@ -1,0 +1,11 @@
+{{define "content"}}
+<section class="login">
+  <h1>{{.Title}}</h1>
+  <form method="post" action="/{{index .Form "role"}}/login">
+    <label>PIN
+      <input name="pin" type="password" inputmode="numeric" autocomplete="current-password" required autofocus>
+    </label>
+    <button class="btn" type="submit">Sign in</button>
+  </form>
+</section>
+{{end}}

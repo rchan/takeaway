@@ -1,0 +1,53 @@
+{{define "content"}}
+<section class="hero">
+  <h1>Hungry? Order here.</h1>
+  <p>Pick what you fancy, tell us your name, and we'll start cooking. You can watch your order's progress after you place it.</p>
+</section>
+
+{{if not .Menu}}
+  <p class="empty">The menu is empty right now. Please check back soon.</p>
+{{else}}
+<form method="post" action="/order" id="order-form">
+  <div class="layout">
+    <div class="menu">
+      {{range .Menu}}
+      <section>
+        <h2>{{.Category}}</h2>
+        {{range .Items}}
+        <div class="item">
+          <div class="item-text">
+            <h3>{{.Name}}</h3>
+            {{if .Description}}<p>{{.Description}}</p>{{end}}
+            <span class="price">{{money .PriceCents}}</span>
+          </div>
+          <div class="qty" data-price="{{.PriceCents}}">
+            <button type="button" class="step" data-dir="-1" aria-label="One fewer {{.Name}}">−</button>
+            <input type="number" name="qty_{{.ID}}" value="0" min="0" max="20" inputmode="numeric" aria-label="Quantity of {{.Name}}">
+            <button type="button" class="step" data-dir="1" aria-label="One more {{.Name}}">+</button>
+          </div>
+        </div>
+        {{end}}
+      </section>
+      {{end}}
+    </div>
+
+    <aside class="checkout">
+      <h2>Your order</h2>
+      <p class="total">Total <strong id="total">£0.00</strong></p>
+      <label>Name
+        <input name="name" required maxlength="60" value="{{index .Form "name"}}" autocomplete="given-name">
+      </label>
+      <label>Phone <span class="hint">(optional)</span>
+        <input name="phone" type="tel" maxlength="30" value="{{index .Form "phone"}}" autocomplete="tel">
+      </label>
+      <label>Notes <span class="hint">(allergies, requests)</span>
+        <textarea name="notes" rows="3" maxlength="300">{{index .Form "notes"}}</textarea>
+      </label>
+      <button class="btn big" type="submit">Place order</button>
+      <p class="hint">Pay when you collect.</p>
+    </aside>
+  </div>
+</form>
+{{end}}
+{{end}}
+{{define "scripts"}}<script src="/static/js/order.js"></script>{{end}}
