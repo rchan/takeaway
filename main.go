@@ -44,16 +44,10 @@ func main() {
 	}
 	defer closeStore()
 
-	adminPIN := envOrDefault("ADMIN_PIN", "")
-	kitchenPIN := envOrDefault("KITCHEN_PIN", "")
+	adminPIN := os.Getenv("ADMIN_PIN")
+	kitchenPIN := os.Getenv("KITCHEN_PIN")
 	if adminPIN == "" || kitchenPIN == "" {
-		log.Printf("WARNING: ADMIN_PIN / KITCHEN_PIN not set, using demo PINs 1234 / 5678. Set real ones before going public.")
-		if adminPIN == "" {
-			adminPIN = "1234"
-		}
-		if kitchenPIN == "" {
-			kitchenPIN = "5678"
-		}
+		log.Fatal("ADMIN_PIN and KITCHEN_PIN must both be set; there are no default PINs")
 	}
 	secret := []byte(os.Getenv("SESSION_SECRET"))
 	if len(secret) == 0 {

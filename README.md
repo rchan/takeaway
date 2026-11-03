@@ -19,16 +19,18 @@ You need [Go](https://go.dev/dl/) 1.26 or newer. Nothing else.
 ```sh
 git clone <this repository>
 cd takeaway
-go run .
+ADMIN_PIN=choose-one KITCHEN_PIN=choose-another go run .
 ```
+
+There are no default PINs: the app refuses to start unless you set both.
 
 Open <http://localhost:8080>. The first run fills the menu with a few demo
 dishes and saves everything to `data/takeaway.json`.
 
-Staff sign-in (demo PINs, used when you set none):
+Staff sign-in, using the PINs you set:
 
-* Admin: <http://localhost:8080/admin>, PIN `1234`
-* Kitchen: <http://localhost:8080/kitchen>, PIN `5678`
+* Admin: <http://localhost:8080/admin>
+* Kitchen: <http://localhost:8080/kitchen>
 
 Open the order page in one window and the kitchen board in another, place an
 order, and watch it arrive.
@@ -41,8 +43,8 @@ All settings are environment variables.
 |---|---|---|
 | `PORT` | `8080` | HTTP port |
 | `SHOP_NAME` | `Gopher Takeaway` | name shown in the header |
-| `ADMIN_PIN` | `1234` (warns) | admin sign-in |
-| `KITCHEN_PIN` | `5678` (warns) | kitchen sign-in |
+| `ADMIN_PIN` | required | admin sign-in |
+| `KITCHEN_PIN` | required | kitchen sign-in |
 | `SESSION_SECRET` | random per start (warns) | signs login cookies; set it in production |
 | `STORE` | `file` | `file` or `firestore` |
 | `DATA_FILE` | `data/takeaway.json` | file store location |
